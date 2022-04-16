@@ -32,7 +32,6 @@ namespace Importer
             if (!items.Any())
                 return;
             await ImportTypeAFiles(items, typeACollector);
-            Report();
         }
 
         private async Task DownloadFiles(
@@ -89,11 +88,6 @@ namespace Importer
             foreach (var item in items)
                 await typeACollector.AddAsync(item);
             await typeACollector.FlushAsync();
-        }
-
-        private void Report()
-        {
-
         }
 
     }
