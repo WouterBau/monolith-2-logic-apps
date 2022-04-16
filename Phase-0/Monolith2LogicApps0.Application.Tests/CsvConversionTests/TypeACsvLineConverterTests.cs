@@ -20,9 +20,11 @@ public class TypeACsvLineConverterTests
     [InlineData(1, new string[] { })]
     [InlineData(1, new string[] { "A" })]
     [InlineData(1, new string[] { "A", "A" })]
-    [InlineData(1, new string[] { "5", "A" })]
-    [InlineData(1, new string[] { "A", "1" })]
-    [InlineData(1, new string[] { "4", "1" })]
+    [InlineData(1, new string[] { "A", "A", "A" })]
+    [InlineData(1, new string[] { "A", "5", "A" })]
+    [InlineData(1, new string[] { "1", "5", "A" })]
+    [InlineData(1, new string[] { "1", "A", "1" })]
+    [InlineData(1, new string[] { "1", "4", "1" })]
     public void FailingRows(int row, string[] values)
     {
         Assert.Throws<CsvConversionException>(() => converter.Convert(row, values));
@@ -32,11 +34,11 @@ public class TypeACsvLineConverterTests
     {
         new object[]
         {
-            1, new string[] { "6", "1" }, new TypeA { Field1 = 6, Field2 = 1 }
+            1, new string[] { "1", "6", "1" }, new TypeA { Id = 1, Field1 = 6, Field2 = 1 }
         },
         new object[]
         {
-            1, new string[] { "5", "-1" }, new TypeA { Field1 = 5, Field2 = -1 }
+            1, new string[] { "1", "5", "-1" }, new TypeA { Id = 1, Field1 = 5, Field2 = -1 }
         },
     };
 
@@ -46,6 +48,7 @@ public class TypeACsvLineConverterTests
     {
         var actual = converter.Convert(row, values);
         Assert.NotNull(actual);
+        Assert.Equal(expected.Id, actual.Id);
         Assert.Equal(expected.Field1, actual.Field1);
         Assert.Equal(expected.Field2, actual.Field2);
     }

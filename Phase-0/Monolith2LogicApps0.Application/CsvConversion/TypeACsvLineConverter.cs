@@ -12,12 +12,14 @@ namespace Monolith2LogicApps0.Application.CsvConversion
 
             try
             {
-                var field1 = int.Parse(values[0]);
+                var id = int.Parse(values[0]);
+                var field1 = int.Parse(values[1]);
                 if (field1 < 5)
                     throw new CsvConversionException("Field1 must have value higher than 5");
-                var field2 = int.Parse(values[1]);
+                var field2 = int.Parse(values[2]);
                 var result = new TypeA
                 {
+                    Id = id,
                     Field1 = field1,
                     Field2 = field2
                 };

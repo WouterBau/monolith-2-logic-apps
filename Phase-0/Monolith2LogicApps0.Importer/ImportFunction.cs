@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using FluentFTP;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
@@ -20,7 +21,7 @@ namespace Importer
         [FunctionName("Function1")]
         [StorageAccount("AzureWebJobsStorage")]
         public async Task Run(
-            [TimerTrigger("0 0 3 * * *")] TimerInfo myTimer,
+            [TimerTrigger("* * * * * *")] TimerInfo myTimer,
             [Blob("import", FileAccess.ReadWrite, Connection = "Monolith2LogicAppsStorage")] BlobContainerClient blobContainerClient,
             [Sql("dbo.TypeAs", ConnectionStringSetting = "SqlConnection")] IAsyncCollector<TypeA> typeACollector,
             ILogger log)
@@ -39,14 +40,16 @@ namespace Importer
             ILogger log)
         {
             using var client = new FtpClient("127.0.0.1", "monolith2logicapps", "");
-            await client.AutoConnectAsync();
+            await client.ConnectAsync();
             foreach (var item in await client.GetListingAsync("/" + LOCATION_NAME))
             {
                 if (item.Type != FtpFileSystemObjectType.File)
                     continue;
 
                 var data = await client.DownloadAsync(item.FullName, token: default);
-                await blobContainerClient.UploadBlobAsync(item.Name, new MemoryStream(data));
+                var blobClient = blobContainerClient.GetBlobClient(item.FullName);
+                await blobClient.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
+                await blobClient.UploadAsync(new MemoryStream(data));
                 log.LogInformation($"File {item.Name} uploaded to Blob Storage");
             }
         }
@@ -58,8 +61,7 @@ namespace Importer
             var items = new List<TypeA>();
             var reader = new CsvReader();
             var converter = new TypeACsvLineConverter();
-            await foreach (var blobItem in blobContainerClient.GetBlobsAsync(Azure.Storage.Blobs.Models.BlobTraits.All,
-                Azure.Storage.Blobs.Models.BlobStates.None, LOCATION_NAME + "/"))
+            await foreach (var blobItem in blobContainerClient.GetBlobsAsync(BlobTraits.All, BlobStates.None, LOCATION_NAME + "/"))
             {
                 try
                 {
@@ -67,6 +69,9 @@ namespace Importer
                     var blobDownload = await blobClient.DownloadContentAsync();
                     var blobStream = blobDownload.Value.Content.ToStream();
                     var importedItems = reader.Parse(blobStream, converter);
+                    var modifiedDateTime = DateTime.UtcNow;
+                    foreach (var item in importedItems)
+                        item.ModifiedDateTime = modifiedDateTime;
                     items.AddRange(importedItems);
                 }
                 catch (Exception ex)
@@ -83,6 +88,7 @@ namespace Importer
         {
             foreach (var item in items)
                 await typeACollector.AddAsync(item);
+            await typeACollector.FlushAsync();
         }
 
         private void Report()
