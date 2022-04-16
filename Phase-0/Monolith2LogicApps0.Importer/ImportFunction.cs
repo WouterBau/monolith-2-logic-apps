@@ -18,7 +18,7 @@ namespace Importer
 
         private const string LOCATION_NAME = "TypeA";
 
-        [FunctionName("Function1")]
+        [FunctionName("TimedImportFunction")]
         [StorageAccount("AzureWebJobsStorage")]
         public async Task Run(
             [TimerTrigger("* * * * * *")] TimerInfo myTimer,
