@@ -1,0 +1,328 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "subscription_id": {
+            "defaultValue": "",
+            "type": "String"
+        },
+        "connections_azureblob_name": {
+            "defaultValue": "azureblob",
+            "type": "String"
+        },
+        "connections_servicebus_name": {
+            "defaultValue": "servicebus",
+            "type": "String"
+        },
+        "connections_sftpwithssh_name": {
+            "defaultValue": "sftpwithssh",
+            "type": "String"
+        },
+        "sftp_hostname": {
+            "defaultValue": "",
+            "type": "String"
+        },
+        "sftp_username": {
+            "defaultValue": "",
+            "type": "String"
+        },
+        "workflows_la_we_cron_sftp_name": {
+            "defaultValue": "la-we-cron-sftp",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Web/connections",
+            "apiVersion": "2016-06-01",
+            "name": "[parameters('connections_azureblob_name')]",
+            "location": "westeurope",
+            "kind": "V1",
+            "properties": {
+                "displayName": "[parameters('connections_azureblob_name')]",
+                "statuses": [
+                    {
+                        "status": "Connected"
+                    }
+                ],
+                "customParameterValues": {},
+                "createdTime": "2022-04-17T23:22:17.1538827Z",
+                "changedTime": "2022-04-17T23:22:17.3257758Z",
+                "api": {
+                    "name": "[parameters('connections_azureblob_name')]",
+                    "displayName": "Azure Blob Storage",
+                    "description": "Microsoft Azure Storage provides a massively scalable, durable, and highly available storage for data on the cloud, and serves as the data storage solution for modern applications. Connect to Blob Storage to perform various operations such as create, update, get and delete on blobs in your Azure Storage account.",
+                    "iconUri": "[concat('https://connectoricons-prod.azureedge.net/releases/v1.0.1563/1.0.1563.2732/', parameters('connections_azureblob_name'), '/icon.png')]",
+                    "brandColor": "#804998",
+                    "id": "[concat('/subscriptions/', parameters('subscription_id'), '/providers/Microsoft.Web/locations/westeurope/managedApis/', parameters('connections_azureblob_name'))]",
+                    "type": "Microsoft.Web/locations/managedApis"
+                },
+                "testLinks": [
+                    {
+                        "requestUri": "[concat('https://management.azure.com:443/subscriptions/', parameters('subscription_id'), '/resourceGroups/Monolith2LogicAppExamples/providers/Microsoft.Web/connections/', parameters('connections_azureblob_name'), '/extensions/proxy/testconnection?api-version=2016-06-01')]",
+                        "method": "get"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Web/connections",
+            "apiVersion": "2016-06-01",
+            "name": "[parameters('connections_servicebus_name')]",
+            "location": "westeurope",
+            "kind": "V1",
+            "properties": {
+                "displayName": "[parameters('connections_servicebus_name')]",
+                "statuses": [
+                    {
+                        "status": "Connected"
+                    }
+                ],
+                "customParameterValues": {},
+                "createdTime": "2022-04-17T23:26:57.9832936Z",
+                "changedTime": "2022-04-17T23:26:58.2802336Z",
+                "api": {
+                    "name": "[parameters('connections_servicebus_name')]",
+                    "displayName": "Service Bus",
+                    "description": "Connect to Azure Service Bus to send and receive messages. You can perform actions such as send to queue, send to topic, receive from queue, receive from subscription, etc.",
+                    "iconUri": "[concat('https://connectoricons-prod.azureedge.net/releases/v1.0.1568/1.0.1568.2756/', parameters('connections_servicebus_name'), '/icon.png')]",
+                    "brandColor": "#c4d5ff",
+                    "id": "[concat('/subscriptions/', parameters('subscription_id'), '/providers/Microsoft.Web/locations/westeurope/managedApis/', parameters('connections_servicebus_name'))]",
+                    "type": "Microsoft.Web/locations/managedApis"
+                },
+                "testLinks": []
+            }
+        },
+        {
+            "type": "Microsoft.Web/connections",
+            "apiVersion": "2016-06-01",
+            "name": "[parameters('connections_sftpwithssh_name')]",
+            "location": "westeurope",
+            "kind": "V1",
+            "properties": {
+                "displayName": "[parameters('sftp_username')]",
+                "statuses": [
+                    {
+                        "status": "Connected"
+                    }
+                ],
+                "customParameterValues": {},
+                "nonSecretParameterValues": {
+                    "acceptAnySshHostKey": true,
+                    "hostName": "[parameters('sftp_hostname')]",
+                    "portNumber": 22,
+                    "userName": "[parameters('sftp_username')]"
+                },
+                "createdTime": "2022-04-18T01:27:43.3137164Z",
+                "changedTime": "2022-04-18T01:27:43.548086Z",
+                "api": {
+                    "name": "[parameters('connections_sftpwithssh_name')]",
+                    "displayName": "SFTP - SSH",
+                    "description": "SFTP (SSH File Transfer Protocol) is a network protocol that provides file access, file transfer, and file management over any reliable data stream. It was designed by the Internet Engineering Task Force (IETF) as an extension of the Secure Shell protocol (SSH) version 2.0 to provide secure file transfer capabilities.",
+                    "iconUri": "[concat('https://connectoricons-prod.azureedge.net/releases/v1.0.1563/1.0.1563.2732/', parameters('connections_sftpwithssh_name'), '/icon.png')]",
+                    "brandColor": "#e8bb00",
+                    "id": "[concat('/subscriptions/', parameters('subscription_id'), '/providers/Microsoft.Web/locations/westeurope/managedApis/', parameters('connections_sftpwithssh_name'))]",
+                    "type": "Microsoft.Web/locations/managedApis"
+                },
+                "testLinks": [
+                    {
+                        "requestUri": "[concat('https://management.azure.com:443/subscriptions/', parameters('subscription_id'), '/resourceGroups/Monolith2LogicAppExamples/providers/Microsoft.Web/connections/', parameters('connections_sftpwithssh_name'), '/extensions/proxy/datasets/default/folders?api-version=2016-06-01')]",
+                        "method": "get"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('workflows_la_we_cron_sftp_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/connections', parameters('connections_azureblob_name'))]",
+                "[resourceId('Microsoft.Web/connections', parameters('connections_servicebus_name'))]",
+                "[resourceId('Microsoft.Web/connections', parameters('connections_sftpwithssh_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "Recurrence": {
+                            "recurrence": {
+                                "frequency": "Day",
+                                "interval": 1,
+                                "schedule": {
+                                    "hours": [
+                                        "6"
+                                    ],
+                                    "minutes": [
+                                        0
+                                    ]
+                                }
+                            },
+                            "evaluatedRecurrence": {
+                                "frequency": "Day",
+                                "interval": 1,
+                                "schedule": {
+                                    "hours": [
+                                        "6"
+                                    ],
+                                    "minutes": [
+                                        0
+                                    ]
+                                }
+                            },
+                            "type": "Recurrence"
+                        }
+                    },
+                    "actions": {
+                        "Condition": {
+                            "actions": {
+                                "For_each": {
+                                    "foreach": "@body('List_files_in_folder')",
+                                    "actions": {
+                                        "Create_blob_(V2)": {
+                                            "runAfter": {
+                                                "Get_file_content": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "body": "@body('Get_file_content')",
+                                                "headers": {
+                                                    "Content-Type": "@items('For_each')?['MediaType']",
+                                                    "ReadFileMetadataFromServer": true
+                                                },
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['azureblob']['connectionId']"
+                                                    }
+                                                },
+                                                "method": "post",
+                                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/files",
+                                                "queries": {
+                                                    "folderPath": "/import/TypeA/",
+                                                    "name": "@items('For_each')?['DisplayName']",
+                                                    "queryParametersSingleEncoded": true
+                                                }
+                                            },
+                                            "runtimeConfiguration": {
+                                                "contentTransfer": {
+                                                    "transferMode": "Chunked"
+                                                }
+                                            }
+                                        },
+                                        "Get_file_content": {
+                                            "runAfter": {},
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['sftpwithssh_1']['connectionId']"
+                                                    }
+                                                },
+                                                "method": "get",
+                                                "path": "/datasets/default/files/@{encodeURIComponent(encodeURIComponent(items('For_each')?['Id']))}/content",
+                                                "queries": {
+                                                    "inferContentType": true
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "runAfter": {},
+                                    "type": "Foreach"
+                                },
+                                "Send_message": {
+                                    "runAfter": {
+                                        "For_each": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "ApiConnection",
+                                    "inputs": {
+                                        "body": {
+                                            "ContentData": "@{base64('Start Import')}"
+                                        },
+                                        "host": {
+                                            "connection": {
+                                                "name": "@parameters('$connections')['servicebus']['connectionId']"
+                                            }
+                                        },
+                                        "method": "post",
+                                        "path": "/@{encodeURIComponent(encodeURIComponent('import-type-a'))}/messages",
+                                        "queries": {
+                                            "systemProperties": "None"
+                                        }
+                                    }
+                                }
+                            },
+                            "runAfter": {
+                                "List_files_in_folder": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "expression": {
+                                "and": [
+                                    {
+                                        "greater": [
+                                            "@length(body('List_files_in_folder'))",
+                                            0
+                                        ]
+                                    }
+                                ]
+                            },
+                            "type": "If"
+                        },
+                        "List_files_in_folder": {
+                            "runAfter": {},
+                            "metadata": {
+                                "6e202211-2856-4d17-9ded-5beb8b8626b0": "/"
+                            },
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['sftpwithssh_1']['connectionId']"
+                                    }
+                                },
+                                "method": "get",
+                                "path": "/datasets/default/folders/@{encodeURIComponent(encodeURIComponent('6e202211-2856-4d17-9ded-5beb8b8626b0'))}"
+                            }
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "azureblob": {
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_azureblob_name'))]",
+                                "connectionName": "azureblob",
+                                "id": "[concat('/subscriptions/', parameters('subscription_id'), '/providers/Microsoft.Web/locations/westeurope/managedApis/azureblob')]"
+                            },
+                            "servicebus": {
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_servicebus_name'))]",
+                                "connectionName": "servicebus",
+                                "id": "[concat('/subscriptions/', parameters('subscription_id'), '/providers/Microsoft.Web/locations/westeurope/managedApis/servicebus')]"
+                            },
+                            "sftpwithssh_1": {
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_sftpwithssh_name'))]",
+                                "connectionName": "sftpwithssh",
+                                "id": "[concat('/subscriptions/', parameters('subscription_id'), '/providers/Microsoft.Web/locations/westeurope/managedApis/sftpwithssh')]"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
