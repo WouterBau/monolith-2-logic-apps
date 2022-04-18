@@ -306,18 +306,18 @@
                         "value": {
                             "azureblob": {
                                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_azureblob_name'))]",
-                                "connectionName": "azureblob",
-                                "id": "[concat('/subscriptions/', parameters('subscription_id'), '/providers/Microsoft.Web/locations/westeurope/managedApis/azureblob')]"
+                                "connectionName": "[parameters('connections_azureblob_name')]",
+                                "id": "[concat('/subscriptions/', parameters('subscription_id'), '/providers/Microsoft.Web/locations/westeurope/managedApis/', parameters('connections_azureblob_name'))]"
                             },
                             "servicebus": {
                                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_servicebus_name'))]",
-                                "connectionName": "servicebus",
-                                "id": "[concat('/subscriptions/', parameters('subscription_id'), '/providers/Microsoft.Web/locations/westeurope/managedApis/servicebus')]"
+                                "connectionName": "[parameters('connections_servicebus_name')]",
+                                "id": "[concat('/subscriptions/', parameters('subscription_id'), '/providers/Microsoft.Web/locations/westeurope/managedApis/', parameters('connections_servicebus_name'))]"
                             },
                             "sftpwithssh_1": {
                                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_sftpwithssh_name'))]",
-                                "connectionName": "sftpwithssh",
-                                "id": "[concat('/subscriptions/', parameters('subscription_id'), '/providers/Microsoft.Web/locations/westeurope/managedApis/sftpwithssh')]"
+                                "connectionName": "[parameters('connections_sftpwithssh_name')]",
+                                "id": "[concat('/subscriptions/', parameters('subscription_id'), '/providers/Microsoft.Web/locations/westeurope/managedApis/', parameters('connections_sftpwithssh_name'))]"
                             }
                         }
                     }
