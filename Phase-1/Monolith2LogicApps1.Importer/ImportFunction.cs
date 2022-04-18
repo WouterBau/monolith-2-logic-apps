@@ -17,7 +17,7 @@ namespace Importer
 
         private const string LOCATION_NAME = "TypeA";
 
-        [FunctionName("TimedImportFunction")]
+        [FunctionName("QueueImportFunction")]
         [StorageAccount("AzureWebJobsStorage")]
         public async Task Run(
             [ServiceBusTrigger("import-type-a", AutoCompleteMessages = true, Connection = "ServiceBusConnection")] string message,
