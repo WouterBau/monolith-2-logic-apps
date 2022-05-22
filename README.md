@@ -1,6 +1,6 @@
 Sample files, scripts, templates and projects for presentation "Breaking a Monolith Data Import into Azure Logic Apps Quick".
 
-[Watch the full livestream](https://www.youtube.com/watch?v=QRb0aP9qVXg)
+[Watch the full livestream](https://www.youtube.com/watch?v=QRb0aP9qVXg){:target="_blank"}
 
 # General
 Basic ARM template with parts of the Azure resources that will be used throughout the presentation.
