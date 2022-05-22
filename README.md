@@ -1,6 +1,7 @@
 Sample files, scripts, templates and projects for presentation "Breaking a Monolith Data Import into Azure Logic Apps Quick".
 
-[Watch the full livestream!](https://www.youtube.com/watch?v=QRb0aP9qVXg)
+> **Note**
+> [Watch the full livestream!](https://www.youtube.com/watch?v=QRb0aP9qVXg)
 
 # Introduction
 Everyone probably has made them: Scheduled tasks to download files and import the data into a different database after some transformations and business logic. But those can get vulnerable quickly by piling up its purposes and external dependencies, creating a small monolith. Azure has different resource types to help you create these kind of tasks.
